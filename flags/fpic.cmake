@@ -15,7 +15,31 @@ string(COMPARE EQUAL "${ANDROID_NDK_VERSION}" "" _not_android)
 if(_not_android)
   polly_add_cache_flag(CMAKE_CXX_FLAGS "-fPIC")
   polly_add_cache_flag(CMAKE_C_FLAGS "-fPIC")
+  polly_add_cache_flag(CMAKE_Fortran_FLAGS "-fPIC")
 else()
-  polly_add_cache_flag(CMAKE_CXX_FLAGS_INIT "-fPIC")
   polly_add_cache_flag(CMAKE_C_FLAGS_INIT "-fPIC")
+  polly_add_cache_flag(CMAKE_CXX_FLAGS_INIT "-fPIC")
+  polly_add_cache_flag(CMAKE_Fortran_FLAGS_INIT "-fPIC")
+  # CMake doesn't add "-pie" by default for executables (CMake issue #14983)
+  polly_add_cache_flag(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pie")
 endif()
+set(
+    CMAKE_POSITION_INDEPENDENT_CODE
+    TRUE
+    CACHE
+    BOOL
+    "Position independent code"
+    FORCE
+)
+
+# Linux, GCC 7.3.0 same results with and without '-fPIC' flag for code:
+#
+#  #include <iostream>
+#  int main() {
+#  #if defined(__PIC__)
+#    std::cout << "PIC: " << __PIC__ << std::endl;
+#  #else
+#    std::cout << "PIC not defined" << std::endl;
+#  #endif
+#  }
+list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "pic")
