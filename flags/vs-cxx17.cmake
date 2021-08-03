@@ -9,7 +9,9 @@ endif()
 
 include(polly_add_cache_flag)
 
-polly_add_cache_flag(CMAKE_CXX_FLAGS_INIT "/std:c++17")
+# VS2017 (at least) erroneously reports an issue with std::allocator on C++17. Define
+# _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING to shut it up.
+polly_add_cache_flag(CMAKE_CXX_FLAGS_INIT "/std:c++17 -D_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING")
 
 # Set CMAKE_CXX_STANDARD to cache to override project local value if present.
 # FORCE added in case CMAKE_CXX_STANDARD already set in cache
