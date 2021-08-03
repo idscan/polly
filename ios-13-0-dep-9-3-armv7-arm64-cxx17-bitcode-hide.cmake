@@ -41,5 +41,5 @@ include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx17.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/bitcode.cmake") # after os/iphone.cmake
-
+include("${CMAKE_CURRENT_LIST_DIR}/flags/fno-aligned-allocation.cmake") # aligned allocation needs iOS >= 11.0
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_ios_development_team.cmake")
