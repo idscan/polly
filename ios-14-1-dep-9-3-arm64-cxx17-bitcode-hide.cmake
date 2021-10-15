@@ -16,7 +16,7 @@ set(IOS_DEPLOYMENT_SDK_VERSION 9.3)
 
 set(POLLY_XCODE_COMPILER "clang")
 polly_init(
-    "iOS ${IOS_SDK_VERSION} / Deployment ${IOS_DEPLOYMENT_SDK_VERSION} / Universal (armv7 arm64) / \
+    "iOS ${IOS_SDK_VERSION} / Deployment ${IOS_DEPLOYMENT_SDK_VERSION} / Universal (arm64) / \
 ${POLLY_XCODE_COMPILER} / \
 bitcode / \
 c++17 support"
@@ -33,8 +33,10 @@ include(polly_ios_bundle_identifier)
 set(CMAKE_MACOSX_BUNDLE YES)
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 
-set(IPHONEOS_ARCHS armv7;arm64)
+set(IPHONEOS_ARCHS arm64)
 set(IPHONESIMULATOR_ARCHS x86_64)
+
+set(CMAKE_GENERATOR_TOOLSET buildsystem=1) # force "old xcode build system"
 
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
