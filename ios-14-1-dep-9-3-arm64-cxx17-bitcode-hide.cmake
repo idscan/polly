@@ -1,10 +1,10 @@
 # Copyright (c) 2017, Ruslan Baratov
 # All rights reserved.
 
-if(DEFINED POLLY_IOS_14_1_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_)
+if(DEFINED POLLY_IOS_14_1_DEP_9_3_ARM64_CXX17_BITCODE_CMAKE_)
   return()
 else()
-	set(POLLY_IOS_14_1_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_ 1)
+	set(POLLY_IOS_14_1_DEP_9_3_ARM64_CXX17_BITCODE_CMAKE_ 1)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_clear_environment_variables.cmake")
