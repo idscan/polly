@@ -36,6 +36,8 @@ set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 set(IPHONEOS_ARCHS armv7;arm64)
 set(IPHONESIMULATOR_ARCHS x86_64)
 
+set(CMAKE_GENERATOR_TOOLSET buildsystem=1) # force "old xcode build system"
+
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
