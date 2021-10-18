@@ -1,17 +1,17 @@
 # Copyright (c) 2017, Ruslan Baratov
 # All rights reserved.
 
-if(DEFINED POLLY_IOS_13_0_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_)
+if(DEFINED POLLY_IOS_14_1_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_)
   return()
 else()
-	set(POLLY_IOS_13_0_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_ 1)
+	set(POLLY_IOS_14_1_DEP_9_3_ARMV7_ARM64_CXX17_BITCODE_CMAKE_ 1)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_clear_environment_variables.cmake")
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
 
-set(IOS_SDK_VERSION 13.0)
+set(IOS_SDK_VERSION 14.1)
 set(IOS_DEPLOYMENT_SDK_VERSION 9.3)
 
 set(POLLY_XCODE_COMPILER "clang")
@@ -35,6 +35,8 @@ set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 
 set(IPHONEOS_ARCHS armv7;arm64)
 set(IPHONESIMULATOR_ARCHS x86_64)
+
+set(CMAKE_GENERATOR_TOOLSET buildsystem=1) # force "old xcode build system"
 
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
