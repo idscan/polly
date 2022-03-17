@@ -13,7 +13,7 @@ endif()
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
 
 polly_init(
-	"gcc / c++17 support / Sandybridge / PIC"
+    "gcc / c++17 support / native / PIC"
     "Ninja"
 )
 
@@ -23,5 +23,5 @@ include("${CMAKE_CURRENT_LIST_DIR}/compiler/gcc.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx17.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx11-abi-disable.cmake") # effectively forced to 0 on RH7 and centos7, so disable to be consistent
-include("${CMAKE_CURRENT_LIST_DIR}/flags/sandybridge.cmake") # target explicit procesor
+include("${CMAKE_CURRENT_LIST_DIR}/flags/native.cmake") # explicitly request native
 include("${CMAKE_CURRENT_LIST_DIR}/flags/fpic.cmake")

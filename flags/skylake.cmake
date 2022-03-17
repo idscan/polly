@@ -1,10 +1,10 @@
 # Copyright (c) 2017, NeroBurner
 # All rights reserved.
 
-if(DEFINED POLLY_FLAGS_X86_64_CMAKE_)
+if(DEFINED POLLY_FLAGS_SKYLAKE_CMAKE_)
   return()
 else()
-  set(POLLY_FLAGS_NEON_CMAKE_ 1)
+  set(POLLY_FLAGS_SKYLAKE_CMAKE_ 1)
 endif()
 
 include(polly_add_cache_flag)

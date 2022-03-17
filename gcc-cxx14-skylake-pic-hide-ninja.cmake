@@ -23,5 +23,5 @@ include("${CMAKE_CURRENT_LIST_DIR}/compiler/gcc.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx14.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx11-abi-disable.cmake") # effectively forced to 0 on RH7 and centos7, so disable to be consistent
-include("${CMAKE_CURRENT_LIST_DIR}/flags/skylake.cmake") # target generic procesor
+include("${CMAKE_CURRENT_LIST_DIR}/flags/skylake.cmake") # target explicit procesor
 include("${CMAKE_CURRENT_LIST_DIR}/flags/fpic.cmake")
