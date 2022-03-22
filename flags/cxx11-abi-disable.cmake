@@ -11,3 +11,6 @@ include(polly_add_cache_flag)
 
 polly_add_cache_flag(CMAKE_CXX_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0")
 polly_add_cache_flag(CMAKE_C_FLAGS "-D_GLIBCXX_USE_CXX11_ABI=0")
+
+# Make it clear what we are requesting
+list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "cxx11-abi-disable")

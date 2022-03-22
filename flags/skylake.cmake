@@ -11,3 +11,6 @@ include(polly_add_cache_flag)
 
 polly_add_cache_flag(CMAKE_CXX_FLAGS "-march=skylake")
 polly_add_cache_flag(CMAKE_C_FLAGS "-march=skylake")
+
+# Make it clear what we are requesting
+list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "skylake")
