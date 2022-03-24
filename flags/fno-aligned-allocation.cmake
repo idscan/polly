@@ -22,3 +22,5 @@ else()
   polly_add_cache_flag(CMAKE_Fortran_FLAGS_INIT "-fno-aligned-allocation")
 endif()
 
+# Make it clear what we are requesting
+list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "no-aligned-allocation")
