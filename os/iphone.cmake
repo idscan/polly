@@ -144,11 +144,14 @@ endif()
 set(IOS YES)
 # -- end
 
+set(CMAKE_OSX_ARCHITECTURES "")
+
 # Set iPhoneOS architectures
 if(NOT "${IPHONEOS_ARCHS}" STREQUAL "")
   set(archs "")
   foreach(arch ${IPHONEOS_ARCHS})
     set(archs "${archs} ${arch}")
+    list(APPEND CMAKE_OSX_ARCHITECTURES ${arch})
   endforeach()
   set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${archs}")
   set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphoneos*] "${archs}")
@@ -159,6 +162,7 @@ if(NOT "${IPHONESIMULATOR_ARCHS}" STREQUAL "")
   set(archs "")
   foreach(arch ${IPHONESIMULATOR_ARCHS})
     set(archs "${archs} ${arch}")
+    list(APPEND CMAKE_OSX_ARCHITECTURES ${arch})
   endforeach()
   set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
   set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
