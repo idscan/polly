@@ -7,8 +7,17 @@ else()
   set(POLLY_OS_IPHONE_CMAKE 1)
 endif()
 
-set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
-set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+if(NOT "${IPHONEOS_ARCHS}" STREQUAL "")
+  set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
+  if(NOT "${IPHONESIMULATOR_ARCHS}" STREQUAL "")
+    set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+  else()
+    set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
+  endif()
+else()
+  set(CMAKE_OSX_SYSROOT "iphonesimulator" CACHE STRING "System root for iOS(Simulator)" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
+endif()
 
 # find 'iphoneos' and 'iphonesimulator' roots and version
 find_program(XCODE_SELECT_EXECUTABLE xcode-select)
@@ -154,6 +163,7 @@ if(NOT "${IPHONESIMULATOR_ARCHS}" STREQUAL "")
   set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
   set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
 endif()
+
 # Introduced in iOS 9.0
 set(CMAKE_XCODE_ATTRIBUTE_ENABLE_BITCODE NO)
 
