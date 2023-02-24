@@ -9,6 +9,9 @@ endif()
 
 include(polly_fatal_error)
 
+polly_add_cache_flag(CMAKE_C_ABI_COMPILED ON)
+polly_add_cache_flag(CMAKE_CXX_ABI_COMPILED ON)
+
 string(COMPARE EQUAL "$ENV{EMSDK}" "" _is_empty)
 if(_is_empty)
   polly_fatal_error(
