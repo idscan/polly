@@ -36,3 +36,5 @@ set(IPHONESIMULATOR_ARCHS arm64)
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx17.cmake")
+
+set_property(GLOBAL PROPERTY XCODE_EMIT_EFFECTIVE_PLATFORM_NAME OFF)

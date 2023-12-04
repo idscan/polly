@@ -39,3 +39,5 @@ include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx17.cmake")
 if("${IOS_DEPLOYMENT_SDK_VERSION}" VERSION_LESS "11.0")
   include("${CMAKE_CURRENT_LIST_DIR}/flags/fno-aligned-allocation.cmake") # aligned allocation needs iOS >= 11.0
 endif()
+
+set_property(GLOBAL PROPERTY XCODE_EMIT_EFFECTIVE_PLATFORM_NAME OFF)
