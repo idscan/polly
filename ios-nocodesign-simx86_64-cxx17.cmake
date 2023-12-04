@@ -36,3 +36,6 @@ set(IPHONESIMULATOR_ARCHS x86_64)
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx17.cmake")
+if("${IOS_SDK_VERSION}" VERSION_LESS "11.0")
+  include("${CMAKE_CURRENT_LIST_DIR}/flags/fno-aligned-allocation.cmake") # aligned allocation needs iOS >= 11.0
+endif()
