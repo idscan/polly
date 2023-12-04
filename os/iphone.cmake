@@ -7,8 +7,16 @@ else()
   set(POLLY_OS_IPHONE_CMAKE 1)
 endif()
 
-set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
-set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+if(IPHONEOS_ARCHS AND IPHONESIMULATOR_ARCHS)
+  set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+elseif(IPHONEOS_ARCHS)
+  set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
+else()
+  set(CMAKE_OSX_SYSROOT "iphonesimulator" CACHE STRING "System root for iOS Simulator" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
+endif()
 
 # find 'iphoneos' and 'iphonesimulator' roots and version
 find_program(XCODE_SELECT_EXECUTABLE xcode-select)
@@ -136,20 +144,19 @@ set(IOS YES)
 # -- end
 
 # Set iPhoneOS architectures
-set(archs "")
-foreach(arch ${IPHONEOS_ARCHS})
-  set(archs "${archs} ${arch}")
-endforeach()
-set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${archs}")
-set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphoneos*] "${archs}")
+string(REPLACE ";" " " archs "${IPHONEOS_ARCHS}")
+if(archs)
+  set(valid_archs ${archs})
+  set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${archs}")
+  set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphoneos*] "${archs}")
+endif()
 
 # Set iPhoneSimulator architectures
-set(archs "")
-foreach(arch ${IPHONESIMULATOR_ARCHS})
-  set(archs "${archs} ${arch}")
-endforeach()
-set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
-set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
+string(REPLACE ";" " " archs "${IPHONESIMULATOR_ARCHS}")
+if(archs)
+  set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
+  set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
+endif()
 
 # Introduced in iOS 9.0
 set(CMAKE_XCODE_ATTRIBUTE_ENABLE_BITCODE NO)
