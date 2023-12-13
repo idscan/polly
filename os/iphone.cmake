@@ -7,8 +7,16 @@ else()
   set(POLLY_OS_IPHONE_CMAKE 1)
 endif()
 
-set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
-set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+if(IPHONEOS_ARCHS AND IPHONESIMULATOR_ARCHS)
+  set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+elseif(IPHONEOS_ARCHS)
+  set(CMAKE_OSX_SYSROOT "iphoneos" CACHE STRING "System root for iOS" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
+else()
+  set(CMAKE_OSX_SYSROOT "iphonesimulator" CACHE STRING "System root for iOS Simulator" FORCE)
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
+endif()
 
 # find 'iphoneos' and 'iphonesimulator' roots and version
 find_program(XCODE_SELECT_EXECUTABLE xcode-select)
@@ -23,6 +31,12 @@ endif()
 if(CMAKE_VERSION VERSION_LESS "3.5")
   polly_fatal_error(
       "CMake minimum required version for iOS is 3.5 (current ver: ${CMAKE_VERSION})"
+  )
+endif()
+
+if("${IOS_SDK_VERSION}" VERSION_GREATER_EQUAL "13.0" AND "${CMAKE_VERSION}" VERSION_LESS "3.14")
+  polly_fatal_error(
+      "CMake minimum required version for iOS SDK Version ${IOS_SDK_VERSION} is 3.14 (current ver: ${CMAKE_VERSION})"
   )
 endif()
 
@@ -130,29 +144,33 @@ set(IOS YES)
 # -- end
 
 # Set iPhoneOS architectures
-set(archs "")
-foreach(arch ${IPHONEOS_ARCHS})
-  set(archs "${archs} ${arch}")
-endforeach()
-set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${archs}")
-set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphoneos*] "${archs}")
+string(REPLACE ";" " " archs "${IPHONEOS_ARCHS}")
+if(archs)
+  set(valid_archs ${archs})
+  set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${archs}")
+  set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphoneos*] "${archs}")
+endif()
 
 # Set iPhoneSimulator architectures
-set(archs "")
-foreach(arch ${IPHONESIMULATOR_ARCHS})
-  set(archs "${archs} ${arch}")
-endforeach()
-set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
-set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
+string(REPLACE ";" " " archs "${IPHONESIMULATOR_ARCHS}")
+if(archs)
+  set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphonesimulator*] "${archs}")
+  set(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS[sdk=iphonesimulator*] "${archs}")
+endif()
 
 # Introduced in iOS 9.0
 set(CMAKE_XCODE_ATTRIBUTE_ENABLE_BITCODE NO)
 
-# This will set CMAKE_CROSSCOMPILING to TRUE.
-# CMAKE_CROSSCOMPILING needed for try_run:
-# * https://cmake.org/cmake/help/latest/command/try_run.html#behavior-when-cross-compiling
-# (used in CURL)
-set(CMAKE_SYSTEM_NAME "Darwin")
+if("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.14")
+  # set proper system name see https://cmake.org/cmake/help/v3.14/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos
+  set(CMAKE_SYSTEM_NAME "iOS")
+else()
+  # This will set CMAKE_CROSSCOMPILING to TRUE.
+  # CMAKE_CROSSCOMPILING needed for try_run:
+  # * https://cmake.org/cmake/help/latest/command/try_run.html#behavior-when-cross-compiling
+  # (used in CURL)
+  set(CMAKE_SYSTEM_NAME "Darwin")
+endif()
 
 # Set CMAKE_SYSTEM_PROCESSOR for one-arch toolchain
 # (needed for OpenCV 3.3)
@@ -162,4 +180,10 @@ if(_all_archs_len EQUAL 1)
   set(CMAKE_SYSTEM_PROCESSOR ${_all_archs})
 else()
   set(CMAKE_SYSTEM_PROCESSOR "")
+endif()
+
+# fix try_compile "Detecting C compiler ABI info - failed" error
+# https://gitlab.kitware.com/cmake/cmake/-/issues/19720
+if("${IOS_SDK_VERSION}" VERSION_GREATER_EQUAL "13.0")
+  set(CMAKE_TRY_COMPILE_CONFIGURATION Release)
 endif()
