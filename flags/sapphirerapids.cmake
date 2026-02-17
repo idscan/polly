@@ -13,4 +13,4 @@ polly_add_cache_flag(CMAKE_CXX_FLAGS "-march=sapphirerapids")
 polly_add_cache_flag(CMAKE_C_FLAGS "-march=sapphirerapids")
 
 # Make it clear what we are requesting
-list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "saphirerapids")
+list(APPEND HUNTER_TOOLCHAIN_UNDETECTABLE_ID "sapphirerapids")
